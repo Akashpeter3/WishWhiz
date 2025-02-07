@@ -10,6 +10,12 @@ spring:
     web-application-type: reactive
     allow-bean-definition-overriding: true
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8087/realms/wishwhiz-realm
+
   systemProperties:
     io.netty.transport.noNative: true
 
@@ -46,15 +52,17 @@ spring:
           uri: lb://PRODUCT-SERVICE
           predicates:
             - Path=/product/**
-          filters:
-            - Authentication
+        # Uncomment the following filters if authentication is required
+        #   filters:
+        #     - Authentication
 
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order/**
-          filters:
-            - Authentication
+        # Uncomment the following filters if authentication is required
+        #   filters:
+        #     - Authentication
 
         - id: user-service
           uri: lb://USER-SERVICE
